@@ -76,12 +76,12 @@ class Solution {
 
     public double xValue(int[] line1, int[] line2){
         double adMinusBc = (double)((long)line1[0]*line2[1] - (long)line1[1]*line2[0]);
-        return (double)((long)line1[1]*line2[2] - (long)line1[2]*line2[1]) / adMinusBc;
+        return ((long)line1[1]*line2[2] - (long)line1[2]*line2[1]) / adMinusBc;
     }
 
     public double yValue(int[] line1, int[] line2){
         double adMinusBc = (double)((long)line1[0]*line2[1] - (long)line1[1]*line2[0]);
-        return (double)((long)line1[2]*line2[0] - (long)line1[0]*line2[2]) / adMinusBc;
+        return (line1[2]*line2[0] - (long)line1[0]*line2[2]) / adMinusBc;
     }
 
     public boolean isInteger(double x, double y){
@@ -90,3 +90,4 @@ class Solution {
         return false;
     }
 }
+
