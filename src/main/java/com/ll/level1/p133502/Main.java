@@ -19,20 +19,24 @@ class Solution {
 
         for (int num : ingredient) {
             stack.add(num);
-        }
 
-        int count = 0;
-        int num = -1;
-        int num2 = -1;
-        while (!stack.isEmpty()) {
-            num = stack.pop();
-            if(num == num2 + 1)
-                count++;
-            else
-                count = 0;
-            num2 = num;
-        }
+            if (stack.size() >= 4) {
+                boolean isMake = true;
+//                    System.out.println(stack.size() - i);
+                if (stack.get(stack.size() - 4) != 1) isMake = false;
+                if (stack.get(stack.size() - 3) != 2) isMake = false;
+                if (stack.get(stack.size() - 2) != 3) isMake = false;
+                if (stack.get(stack.size() - 1) != 1) isMake = false;
 
+                if (isMake) {
+                    result++;
+                    for (int i = 0; i < 4; i++) {
+                        stack.pop();
+                    }
+                }
+            }
+        }
+        System.out.println(result);
         return result;
     }
 }
