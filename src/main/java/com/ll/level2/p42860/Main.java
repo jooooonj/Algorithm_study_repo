@@ -76,6 +76,7 @@ class Solution {
 
         int fCount = 1;
         int bCount = 1;
+
         int front = (s + 1) % counts.length;
         int back = (counts.length + (s - 1)) % counts.length;
 
