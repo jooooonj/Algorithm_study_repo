@@ -3,33 +3,37 @@ package com.ll.level2.p42860;
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
-        s.solution("LABLPAJM");
-        s.solution("BMOABA");
-        s.solution("LAABAA");
-        s.solution("SAAAAAARRM");
-        s.solution("RABAMATAWADLAFAVAAE");
-        s.solution("XAAAAAABA");
-        s.solution("AYOZAAVADAY");
-        s.solution("AAFEASAAVA");
-        s.solution("UAGAAASAAFAFXZA");
-        s.solution("AAAAZAATAEA");
-        s.solution("AACALATLAHABAA");
-        s.solution("FAWJAAAFV");
-        s.solution("AACAVAAPSAAOAA");
-        s.solution("AKAAWAKX");
-        s.solution("K");
-        s.solution("W");
-        s.solution("K");
-        s.solution("X");
-        s.solution("LOAAAHAJAAFAEBAWO");
-        s.solution("BABAAAAAAB");
+
+//        s.solution("LABLPAJM");
+        s.solution("JAN");
+//        s.solution("BMOABA");
+//        s.solution("LAABAA");
+//        s.solution("SAAAAAARRM");
+//        s.solution("RABAMATAWADLAFAVAAE");
+//        s.solution("XAAAAAABA");
+//        s.solution("AYOZAAVADAY");
+//        s.solution("AAFEASAAVA");
+//        s.solution("UAGAAASAAFAFXZA");
+//        s.solution("AAAAZAATAEA");
+//        s.solution("AACALATLAHABAA");
+//        s.solution("FAWJAAAFV");
+//        s.solution("AACAVAAPSAAOAA");
+//        s.solution("AKAAWAKX");
+//        s.solution("K");
+//        s.solution("W");
+//        s.solution("K");
+//        s.solution("X");
+//        s.solution("LOAAAHAJAAFAEBAWO");
+//        s.solution("BABAAAAAAB");
+//        s.solution("BBBAAAAAB");
     }
 }
 
 class Solution {
+    static boolean[] visited;
     static int[] counts;
     static int excludeA = 0;
-    static int result = Integer.MAX_VALUE;
+    static int answer = Integer.MAX_VALUE;
 
     public int solution(String name) {
         //1. 알파벳 각각 해당 알파벳으로 바꾸기 위해서 몇번 조작해야 하는지
@@ -37,8 +41,8 @@ class Solution {
         // 더 작은 숫자로 기록
         int count = 0;
         counts = new int[name.length()];
+        visited = new boolean[name.length()];
 
-        int[] counts = new int[name.length()];
         for(int i=0; i<name.length(); i++){
             int tmp = name.charAt(i) - 'A';
             if(tmp > 0){
@@ -49,40 +53,45 @@ class Solution {
             count += index;
         }
 
+        if(counts[0] > 0)
+            visited[0] = true;
 
-        //2. 0을 제외한 알파벳을 다 돌기 위해서 몇번 조작해야 하는지
-        //왼쪽으로/오른쪽으로 진행시켜놓고 마지막으로 0이상 숫자가 있던 인덱스 번호
-        move(0,0, 0, true);
-        count += result;
-        System.out.println(name+" : " + count +", ");
-
-        return count;
+        move(0, 0, 0);
+        System.out.println(count + answer);
+        return count + answer;
     }
 
-    public void move(int index, int count, int correct, boolean zero) {
-        if(correct == excludeA){
-            if(result > count)
-                result = count;
+    //해당 인덱스에서 다음 목표까지 가장 가까운 경로 재귀 (완전탐색)
+    static void move(int s, int correct, int count){
+        if(counts[s] > 0){
+            visited[s] = true;
+            correct += 1;
         }
 
-        if(index==0 && !zero)
+        if(correct == excludeA){
+            if(answer > count)
+                answer = count;
             return;
+        }
 
-        int front = index;
-        int back = index;
-        front = (front + 1) % counts.length;
-        back = (index - 1);
-        if(back==-1)
-            back = counts.length - 1;
+        int fCount = 1;
+        int bCount = 1;
+        int front = (s + 1) % counts.length;
+        int back = (counts.length + (s - 1)) % counts.length;
 
-        if(counts[front] > 0)
-            move(front, count + 1, correct + 1, false);
-        else
-            move(front,count + 1, correct, false);
+        while(counts[front] == 0 || visited[front]) {
+            front = (front + 1) % counts.length;
+            fCount++;
+        }
+        while (counts[back] == 0 || visited[back]){
+            back = (counts.length + (back - 1)) % counts.length;
+            bCount++;
+        }
 
-        if(counts[back] > 0)
-            move(back, count + 1, correct + 1, false);
-        else
-            move(back, count+1, correct, false);
+        move(back, correct, count + bCount);
+        visited[back] = false;
+        move(front, correct, count + fCount);
+        visited[front] = false;
     }
+
 }
