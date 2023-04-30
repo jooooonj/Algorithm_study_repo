@@ -1,107 +1,73 @@
 package com.ll.level2.p172927;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
         int[] picks = {1, 3, 2};
         String[] minerals = {"diamond", "diamond", "diamond", "iron", "iron", "diamond", "iron", "stone"};
+
+        int[] picks2 = {0,1,1};
+        String[] minerals2 = {"diamond", "diamond", "diamond", "diamond", "diamond", "iron", "iron", "iron", "iron", "iron", "diamond"};
+
         Solution s = new Solution();
 
-        s.solution(picks, minerals);
-
+        s.solution(picks2, minerals2);
     }
 }
-
 class Solution {
-    int mineralPart;
-    String minerals[];
-    boolean[] visited;
-    int[] picks;
-    int min = Integer.MAX_VALUE;
-    int stamina = 0;
+    int answer = Integer.MAX_VALUE;
+    int all = 0;
+    public int solution(int[] picks, String[] minerals) {
+        all = picks[0] + picks[1] + picks[2];
 
-    public int solution(int[] pickss, String[] minerals) {
-        //광석 저장
-        this.minerals = minerals;
-        mineralPart = (minerals.length + 4) / 5;
+        for(int i=0; i<3; i++){
+            if(picks[i] > 0){
 
-        int N = 0;
-        for(int n : pickss){
-            N += n;
-        }
-
-        picks = new int[N];
-        visited = new boolean[N];
-
-        int index = 0;
-        for(int i=0; i<pickss.length; i++){
-            int num = pickss[i];
-
-            for(int j=0; j<num; j++){
-                picks[index++] = i + 1;
+                picks[i]--;
+                find(picks, minerals, i, 0, 0, 1);
+                picks[i]++;
             }
         }
 
-        backTracking(new ArrayList<>());
+        System.out.println(answer);
 
-        System.out.println(min);
-        return min;
-
+        return answer;
     }
 
-    int search(int pick, int part) {
+    void find(int[] picks, String[] minerals, int weapon, int mineralIndex, int sum, int count){
 
-        if(part > mineralPart)
-            return 0;
-
-        int stamina = 0;
-
-        int index = (part-1) * 5;
-
-        for (int j = index; j < index + 5 && j < minerals.length; j++) {
-            stamina += calcStamina(pick, minerals[j]);
+        for(int i=mineralIndex; i<mineralIndex + 5 && i<minerals.length; i++){
+            sum += calc(weapon, minerals[i]);
         }
 
-        return stamina;
-    }
+        if(count==all || mineralIndex >= minerals.length){
+            answer = Math.min(answer, sum);
+        }
 
-    void backTracking(List<Integer> list) {
-        if (!list.isEmpty() && list.get(list.size() - 1) == picks.length - 1) {
-            if(stamina < min){
-                min = stamina;
+
+        for(int i=0; i<3; i++){
+            if(picks[i] > 0){
+                picks[i]--;
+                find(picks, minerals, i, mineralIndex+5, sum, count + 1);
+                picks[i]++;
             }
-            return;
-        }
-
-
-
-        for (int i = 0; i < picks.length; i++) {
-            if (visited[i]) continue;
-
-            visited[i] = true;
-            list.add(i);
-            int s = search(picks[i], list.size());
-            stamina += s;
-            if(stamina < min) backTracking(list);
-
-            stamina -= s;
-            list.remove(list.size() - 1);
-            visited[i] = false;
         }
     }
 
-    int calcStamina(int pick, String mineral) {
-
-        if (pick == 2)
-            if (mineral.equals("diamond")) return 5;
-
-        if (pick == 3) {
-            if (mineral.equals("diamond")) return 25;
-            if (mineral.equals("iron")) return 5;
+    //피로도 계산
+     int calc(int weapon, String mineral){
+        if(weapon == 1){
+            if(mineral.equals("diamond")) return 5;
         }
 
-        return 1;
+        if(weapon == 2){
+            if(mineral.equals("diamond")) return 25;
+            if(mineral.equals("iron")) return 5;
+        }
+
+         return 1;
     }
 }
+
+
+
+
