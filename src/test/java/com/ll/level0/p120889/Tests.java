@@ -1,5 +1,6 @@
 package com.ll.level0.p120889;
 
+import com.ll.programers.level0.p120889.Solution;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

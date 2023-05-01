@@ -1,6 +1,6 @@
 package com.ll.level0.p120829;
 
-import com.ll.level0.p120829.Solution;
+import com.ll.programers.level0.p120829.Solution;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
