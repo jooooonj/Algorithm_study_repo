@@ -1,4 +1,4 @@
-package com.ll.삼성SW역량테스트기출.sw1249;
+package com.ll.SW_Expert_Academy.sw1249;
 
 import java.io.BufferedReader;
 import java.io.IOException;

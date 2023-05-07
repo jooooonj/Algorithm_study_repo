@@ -1,4 +1,4 @@
-package com.ll.삼성SW역량테스트기출.Baekjoon14499;
+package com.ll.SW_Expert_Academy.Baekjoon14499;
 
 import java.io.BufferedReader;
 import java.io.IOException;
