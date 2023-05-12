@@ -1,6 +1,8 @@
 package com.ll.programers.level2.p72412;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Main {
@@ -11,6 +13,13 @@ public class Main {
         s.solution(info, query);
     }
 }
+
+
+
+import java.util.ArrayList;
+        import java.util.Collections;
+        import java.util.Comparator;
+        import java.util.List;
 
 class Solution {
     class Person{
@@ -43,6 +52,7 @@ class Solution {
                     Integer.parseInt(this.score) >= Integer.parseInt(score)) {
                 return true;
             }
+
             return false;
         }
     }
@@ -58,6 +68,13 @@ class Solution {
             studentList.add(new Person(lan,skill,level,cook,score));
         }
 
+        Collections.sort(studentList, new Comparator<Person>() {
+            @Override
+            public int compare(Person o1, Person o2) {
+                return Integer.parseInt(o1.score) - Integer.parseInt(o2.score);
+            }
+        });
+
         int[] result = new int[query.length];
 
         for(int i=0; i<query.length; i++){
@@ -71,7 +88,9 @@ class Solution {
             String cook = split[6];
             String score = split[7];
 
-            for(Person person : studentList){
+            int index = binarySearch(studentList, 0, studentList.size()-1, Integer.parseInt(score));
+            for(int j=index; j<studentList.size(); j++){
+                Person person = studentList.get(j);
                 if(person.isCorrect(lan,skill,level,cook,score))
                     count++;
             }
@@ -81,4 +100,25 @@ class Solution {
 
         return result;
     }
+
+    int binarySearch(List<Person> studentList, int left, int right, int key){
+
+        int m;
+        while(left<=right){
+            m = (left + right)/2;
+
+            Person person = studentList.get(m);
+            int score = Integer.parseInt(person.score);
+
+
+            if(key<=score)
+                right = m-1;
+            else
+                left = m+1;
+        }
+
+        return left;
+
+    }
 }
+
