@@ -1,9 +1,6 @@
 package com.ll.programers.level2.p72412;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,111 +11,63 @@ public class Main {
     }
 }
 
-
-
-import java.util.ArrayList;
-        import java.util.Collections;
-        import java.util.Comparator;
-        import java.util.List;
-
 class Solution {
-    class Person{
-        String lan;
-        String skill;
-        String level;
-        String cook;
-        String score;
-
-        Person(String lan, String skill, String level, String cook, String score){
-            this.lan = lan;
-            this.skill = skill;
-            this.level = level;
-            this.cook = cook;
-            this.score = score;
-        }
-
-        //주어진 조건에 일치하는지 검사하는 함수
-        boolean isCorrect(String lan, String skill, String level, String cook, String score){
-            if(lan.equals("-")) lan = this.lan;
-            if(skill.equals("-")) skill = this.skill;
-            if(level.equals("-")) level = this.level;
-            if(cook.equals("-")) cook = this.cook;
-            if(score.equals("-")) score = this.score;
-
-            if (this.lan.equals(lan) &&
-                    this.skill.equals(skill) &&
-                    this.level.equals(level) &&
-                    this.cook.equals(cook) &&
-                    Integer.parseInt(this.score) >= Integer.parseInt(score)) {
-                return true;
-            }
-
-            return false;
-        }
-    }
     public int[] solution(String[] info, String[] query) {
-        List<Person> studentList = new ArrayList<>();
+        Map<String, List<Integer>> infos = new HashMap<>();
+        int[] result = new int[query.length];
         for(String str : info){
             String[] split = str.split(" ");
-            String lan = split[0];
-            String skill = split[1];
-            String level = split[2];
-            String cook = split[3];
-            String score = split[4];
-            studentList.add(new Person(lan,skill,level,cook,score));
+
+            makeKey(split, infos, 0, "");
         }
 
-        Collections.sort(studentList, new Comparator<Person>() {
-            @Override
-            public int compare(Person o1, Person o2) {
-                return Integer.parseInt(o1.score) - Integer.parseInt(o2.score);
-            }
-        });
-
-        int[] result = new int[query.length];
-
-        for(int i=0; i<query.length; i++){
+        for(int i =0; i<query.length; i++){
             String q = query[i];
-            int count = 0; //몇명인지 셀 함수
-
             String[] split = q.split(" ");
-            String lan = split[0];
-            String skill = split[2];
-            String level = split[4];
-            String cook = split[6];
-            String score = split[7];
+            q = split[0]+split[2]+split[4]+split[6];
 
-            int index = binarySearch(studentList, 0, studentList.size()-1, Integer.parseInt(score));
-            for(int j=index; j<studentList.size(); j++){
-                Person person = studentList.get(j);
-                if(person.isCorrect(lan,skill,level,cook,score))
-                    count++;
+            if(!infos.containsKey(q))
+                result[i] = 0;
+            else{
+                List<Integer> list = infos.get(q);
+                Collections.sort(list);
+                int goal = Integer.parseInt(split[7]);
+
+                int left = 0;
+                int right = list.size() - 1;
+
+                while(left<=right){
+                    int m = (left+right) / 2;
+
+                    int value = list.get(m);
+                    if(value >= goal)
+                        right = m-1;
+                    else
+                        left = m+1;
+                }
+
+                result[i] = list.size() - left;
             }
-
-            result[i] = count;
         }
 
         return result;
     }
 
-    int binarySearch(List<Person> studentList, int left, int right, int key){
-
-        int m;
-        while(left<=right){
-            m = (left + right)/2;
-
-            Person person = studentList.get(m);
-            int score = Integer.parseInt(person.score);
-
-
-            if(key<=score)
-                right = m-1;
-            else
-                left = m+1;
+    public void makeKey(String[] split, Map<String, List<Integer>> infos, int index, String note) {
+        if (index == 4) {
+            note = note.trim();
+            if (infos.containsKey(note))
+                infos.get(note).add(Integer.parseInt(split[4]));
+            else {
+                List<Integer> list = new ArrayList<>();
+                list.add(Integer.parseInt(split[4]));
+                infos.put(note, list);
+            }
+            return;
         }
 
-        return left;
-
+        makeKey(split, infos, index + 1, note + "-");
+        makeKey(split, infos, index + 1, note  + split[index]);
     }
 }
 
