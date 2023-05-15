@@ -21,6 +21,9 @@ class Solution {
             makeKey(split, infos, 0, "");
         }
 
+        for(String key : infos.keySet())
+            Collections.sort(infos.get(key));
+
         for(int i =0; i<query.length; i++){
             String q = query[i];
             String[] split = q.split(" ");
@@ -30,7 +33,6 @@ class Solution {
                 result[i] = 0;
             else{
                 List<Integer> list = infos.get(q);
-                Collections.sort(list);
                 int goal = Integer.parseInt(split[7]);
 
                 int left = 0;
