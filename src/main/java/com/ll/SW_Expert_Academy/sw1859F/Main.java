@@ -1,8 +1,9 @@
-package com.ll.SW_Expert_Academy.sw1859;
+package com.ll.SW_Expert_Academy.sw1859F;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -21,17 +22,29 @@ public class Main {
             for (int i = 0; i < N; i++) {
                 int num = Integer.parseInt(st.nextToken());
                 arr[i] = num;
+                tmp[i] = num;
             }
-            int max = 0;
-            long sum = 0;
 
-            for(int i=arr.length-1; i>=0; i--){
-                max = Math.max(max, arr[i]);
-
-                if(max > arr[i]){
-                    sum += (max - arr[i]);
+            Arrays.sort(tmp);
+            int sum = 0;
+            int count = 0;
+            int loss = 0;
+            int index = tmp.length - 1;
+            int goal = tmp[index--];
+            for (int j = 0; j < arr.length; j++) {
+                if (arr[j] == goal) {
+                    sum += (count * arr[j]) - loss;
+                    goal = tmp[index--];
+                    count = 0;
+                    loss = 0;
+                    if(index== -1)
+                        break;
+                } else{
+                    count++;
+                    loss += arr[j];
                 }
             }
+
 
             sb.append("#" + t + " " + sum + "\n");
         }
