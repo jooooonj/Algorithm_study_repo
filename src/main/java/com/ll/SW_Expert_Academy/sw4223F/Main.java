@@ -1,4 +1,4 @@
-package com.ll.SW_Expert_Academy.sw4223;
+package com.ll.SW_Expert_Academy.sw4223F;
 
 import java.io.BufferedReader;
 import java.io.IOException;

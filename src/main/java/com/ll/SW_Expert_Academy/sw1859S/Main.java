@@ -1,4 +1,4 @@
-package com.ll.SW_Expert_Academy.sw1859;
+package com.ll.SW_Expert_Academy.sw1859S;
 
 import java.io.BufferedReader;
 import java.io.IOException;
