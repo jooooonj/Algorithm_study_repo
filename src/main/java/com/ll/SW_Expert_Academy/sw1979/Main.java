@@ -10,7 +10,6 @@ public class Main {
     static int K;
     static int[][] map;
     static int result;
-    static boolean visited[][];
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,60 +20,54 @@ public class Main {
 
         for (int t = 1; t <= T; t++) {
             result = 0;
-            
+
             st = new StringTokenizer(br.readLine());
 
             N = Integer.parseInt(st.nextToken());
             K = Integer.parseInt(st.nextToken());
 
-            map = new int[N][N];
-            visited = new boolean[N][N];
+            map = new int[N+2][N+2];
 
-            for (int i = 0; i < N; i++) {
+            for (int i = 1; i <= N; i++) {
                 st = new StringTokenizer(br.readLine());
-                for (int j = 0; j < N; j++) {
+                for (int j = 1; j <= N; j++) {
                     map[i][j] = Integer.parseInt(st.nextToken());
                 }
             }
 
 
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
-                    if(!visited[i][j] && map[i][j] == 1){
-                        result += check(i,j);
-                    }
+            for(int i=1; i<=N; i++){
+                int count = 0;
+                for(int j=1; j<=N; j++){
+                    if(map[i][j-1] == 0 && map[i][j] == 1)
+                        count = 1;
+                    else if(map[i][j-1]==1 && map[i][j]==1)
+                        count += 1;
+                    else if(map[i][j] == 0)
+                        count = 0;
+
+                    if(count==K && map[i][j+1]==0)
+                        result++;
+                }
+            }
+
+            for(int i=1; i<=N; i++){
+                int count = 0;
+                for(int j=1; j<=N; j++){
+                    if(map[j-1][i] == 0 && map[j][i] == 1)
+                        count = 1;
+                    else if(map[j-1][i]==1 && map[j][i]==1)
+                        count++;
+                    else
+                        count = 0;
+
+                    if(count==K && map[j+1][i]==0)
+                        result++;
                 }
             }
 
             sb.append("#" + t + " " + result + "\n");
         }
         System.out.println(sb);
-    }
-
-    static int check(int r, int c){
-        int count = 0;
-        int weight = 0;
-        int height = 0;
-        int i = r;
-        int j = c;
-
-        while(map[r][j] == 1){
-            visited[r][j] = true;
-            weight++;
-            j++;
-
-            if(j>=N)break;
-        }
-
-        while(map[i][c] == 1){
-            visited[i][cf
-            i++;
-
-            if(i>=N || j>=N)break;
-        }
-
-        if(weight == K) count++;
-        if(height == K) count++;
-        return  count;
     }
 }
