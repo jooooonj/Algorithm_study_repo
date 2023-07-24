@@ -1,9 +1,8 @@
-package com.ll.baekjoon.Baekjoon15661;
+package com.ll.baekjoon.R_Baekjoon15661;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
