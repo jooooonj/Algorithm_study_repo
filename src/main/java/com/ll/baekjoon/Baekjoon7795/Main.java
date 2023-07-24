@@ -12,7 +12,7 @@ public class Main {
         StringTokenizer st;
         StringBuilder sb = new StringBuilder();
         int T = Integer.parseInt(br.readLine());
-        for(int t=0; t<T; t++){
+        for(int t=0; t<T; t++) {
             st = new StringTokenizer(br.readLine());
             int N = Integer.parseInt(st.nextToken());
             int[] A = new int[N];
@@ -21,24 +21,29 @@ public class Main {
             int[] B = new int[M];
 
             st = new StringTokenizer(br.readLine());
-            for(int i=0; i<N; i++){
+            for (int i = 0; i < N; i++) {
                 A[i] = Integer.parseInt(st.nextToken());
             }
             st = new StringTokenizer(br.readLine());
-            for(int i=0; i<M; i++){
+            for (int i = 0; i < M; i++) {
                 B[i] = Integer.parseInt(st.nextToken());
             }
             Arrays.sort(B);
-
+            Arrays.sort(A);
             int count = 0;
             for(int i=0; i<N; i++){
-                for(int j=0; j<M; j++){
-                    if(A[i] > B[j]) count++;
+                int s = 0;
+                int e = M-1;
+                while(s<=e){
+                    int m = (s+e)/2;
+                    if(B[m] < A[i])
+                        s = m+1;
                     else
-                        break;
+                        e = m-1;
                 }
+                count += s;
             }
-            sb.append(count+"\n");
+            sb.append(count + "\n");
         }
         System.out.println(sb);
     }
