@@ -41,17 +41,19 @@ public class Main {
         for(int i=N-1; i>0; i--){
             if(num[i] > num[i-1]){
 
-
+                int dif = Integer.MAX_VALUE;
+                int index2 = -1;
                 for(int j=i; j<N ;j++){
-                    if(num[j] == num[i-1] + 1){
-                        int tmp = num[j];
-                        num[j] = num[i -1];
-                        num[i-1] = tmp;
-
-                        index = i;
-                        break;
+                    if(num[j] > num[i-1] && dif > num[j] - num[i-1]){
+                        dif = num[j] - num[i-1];
+                        index2 = j;
                     }
                 }
+                int tmp = num[index2];
+                num[index2] = num[i -1];
+                num[i-1] = tmp;
+
+                index = i;
                 break;
             }
         }
