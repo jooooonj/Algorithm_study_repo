@@ -61,7 +61,6 @@ public class Main {
                 if (map[i][j] != 0) {
                     result1 += dfs(i, j, map[i][j], 0, 0);
                     result1 += dfs(i, j, map[i][j], 0, 1);
-
                     result2 += dfs(i, j, map[i][j], 0, 2);
                     result2 += dfs(i, j, map[i][j], 0, 3);
 
