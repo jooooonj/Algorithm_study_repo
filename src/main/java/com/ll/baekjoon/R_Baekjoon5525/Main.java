@@ -7,30 +7,34 @@ import java.io.InputStreamReader;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
-        int length = Integer.parseInt(br.readLine());
+
+        int N = Integer.parseInt(br.readLine()); //o가 1개일때마다 확인
+        int l = Integer.parseInt(br.readLine());
+
         String str = br.readLine();
 
-        int count = 0;
         int result = 0;
-        for (int i = 1; i < length - 1;) {
-            if (str.charAt(i) == 'O' && str.charAt(i + 1) == 'I') {
+        int count = 0;
+        for (int i = 1; i < l - 1; i++) {
+            char ch = str.charAt(i);
+
+            if (ch == 'O' && str.charAt(i + 1) == 'I') {
                 count++;
 
-                if(count == N){
-                    if(str.charAt(i - (count*2-1)) == 'I')
+
+                if (count == N) {
+                    if (str.charAt(i - (count * 2 - 1)) == 'I') {
                         result++;
+                    }
                     count--;
                 }
 
-                i += 2;
-
+                i++;
             } else{
                 count = 0;
-                i++;
             }
-        }
 
+        }
         System.out.println(result);
     }
 }

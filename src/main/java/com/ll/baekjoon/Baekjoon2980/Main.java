@@ -1,4 +1,4 @@
-package com.ll.baekjoon.R_Baekjoon2980;
+package com.ll.baekjoon.Baekjoon2980;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,14 +38,14 @@ public class Main {
         }
 
         int time = -1;
-        for(int i=1; i<=L; i++){
+        for(int i=1; i<=L; i++){ //건넜다고 치고
             time++; //시간은 계속 흐른다.
 
             if(map.containsKey(i)){
                 Tr curr = map.get(i);
 
                 if(time % (curr.red+curr.green) < curr.red){
-                    i--;
+                    i--; //빨간불이면 다시 물러나기
                 }
             }
         }
