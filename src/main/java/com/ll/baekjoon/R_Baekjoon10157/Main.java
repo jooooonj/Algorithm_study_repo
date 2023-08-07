@@ -8,56 +8,56 @@ import java.util.StringTokenizer;
 public class Main {
     static int R;
     static int C;
-    static int K;
+    static int N;
+    static boolean[][] visited;
+
     static int[] dr = {1,0,-1,0};
     static int[] dc = {0,1,0,-1};
-    static boolean[][] visited;
-    static int[][] map;
 
-    static int[] allocate(int r, int c, int depth, int d){
-        if(depth==K)
-            return new int[]{r+1,c+1};
-        if(depth==R*C)
-            return null;
-        visited[r][c] = true;
-        map[r][c] = depth;
 
-        int nd = d;
-        int nr = r+dr[d];
-        int nc = c+dc[d];
-        if(nr>=0 && nc>=0 && nr<R && nc<C){
-            if(visited[nr][nc]){
-                nd = (d+1) % 4;
-                nr = r+dr[nd];
-                nc = c+dc[nd];
-            }
-        } else{
-            nd = (d+1) % 4;
-            nr = r+dr[nd];
-            nc = c+dc[nd];
-        }
-
-        return allocate(nr,nc,depth+1,nd);
-    }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine());
-        C = Integer.parseInt(st.nextToken()); //7
-        R = Integer.parseInt(st.nextToken()); //6
+
+        C = Integer.parseInt(st.nextToken());
+        R = Integer.parseInt(st.nextToken());
+
         visited = new boolean[R][C];
-        map = new int[R][C];
-        K = Integer.parseInt(br.readLine());
 
-        int[] result = allocate(0, 0, 1, 0);
-
-
-        if (result == null) {
+        N = Integer.parseInt(br.readLine());
+        if(N>R*C){
             System.out.println(0);
-        } else{
-            System.out.println(result[1]+" "+result[0]);
+            System.exit(0);
         }
 
+        int cr = 0;
+        int cc = 0;
+        int dist = 0; //처음엔 위방향 부딪힐때마다 방향변경
+
+        visited[0][0] = true;
+        for(int i=1; i<N; i++){
+
+            int nr = cr + dr[dist];
+            int nc = cc + dc[dist];
+            if(nr<0 || nc<0 || nr>=R || nc>=C){
+                i--;
+                dist = (dist+1)%4;
+                continue;
+            }
+
+            if(visited[nr][nc]){
+                i--;
+                dist = (dist+1)%4;
+                continue;
+            }
+
+            visited[nr][nc] = true;
+            cr = nr;
+            cc = nc;
+        }
+
+        System.out.println((cc+1)+" "+(cr+1));
     }
 }
