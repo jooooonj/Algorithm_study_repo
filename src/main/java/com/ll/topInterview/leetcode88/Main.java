@@ -1,4 +1,4 @@
-package com.ll.topInterview.top88;
+package com.ll.topInterview.leetcode88;
 
 import java.util.Arrays;
 
