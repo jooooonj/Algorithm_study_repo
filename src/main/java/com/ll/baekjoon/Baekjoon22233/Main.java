@@ -16,19 +16,19 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken()); //글의 개수
 
-        Map<String, Boolean> memo = new HashMap<>();
+        Map<String, Boolean> memos = new HashMap<>();
         int memoCount = 0;
         for(int i=0; i<N; i++){
             memoCount++;
-            memo.put(br.readLine(), true);
+            memos.put(br.readLine(), true);
         }
 
         for(int i=0; i<M; i++){
             String tmp = br.readLine();
             String[] words = tmp.split(",");
             for (String word : words) {
-                if (memo.containsKey(word)) {
-                    memo.remove(word);
+                if (memos.containsKey(word)) {
+                    memos.remove(word);
                     memoCount--;
                 }
             }
