@@ -17,7 +17,7 @@ class Solution {
 
             numArr[i] = count;
         }
-
+        
         int sum = 0;
         for(int n : numArr){
             if(n > limit) sum += power;
