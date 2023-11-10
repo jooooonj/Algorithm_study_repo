@@ -13,7 +13,6 @@ class Solution {
         Arrays.sort(score);
         //1,1,1,2,2,3,3
 
-
         int sum = 0;
         for(int i=score.length; i>=0; i-=m){
             if(i-m>=0){
