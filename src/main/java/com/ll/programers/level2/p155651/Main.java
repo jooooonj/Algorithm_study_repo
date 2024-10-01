@@ -1,7 +1,8 @@
 package com.ll.programers.level2.p155651;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -34,24 +35,30 @@ class Solution {
         });
 
         int count = 0;
+        List<Integer> list = new ArrayList<>();
         for(int i=0; i<bookTime.length; i++){
             int startTime = bookTime[i][0];
 
             boolean needRoom = true;
-            for(int j=0; j<i; j++){
-                int endTime = bookTime[j][1] + 10;
+            for(int j =0; j<list.size(); j++){
+                Integer endTime = list.get(j);
+                endTime += 10;
+                if(endTime % 100 >= 60){
+                    endTime += 40;
+                }
 
                 if(startTime >= endTime){
                     needRoom =  false;
+                    list.set(j, bookTime[i][1]);
                     break;
                 }
             }
 
             if(needRoom){
-                count++;
+                list.add(bookTime[i][1]);
             }
         }
 
-        return count;
+        return list.size();
     }
 }
