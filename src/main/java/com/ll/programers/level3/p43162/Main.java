@@ -1,4 +1,4 @@
-package com.ll.programers.level2.p43162;
+package com.ll.programers.level3.p43162;
 
 import java.util.LinkedList;
 import java.util.Queue;
