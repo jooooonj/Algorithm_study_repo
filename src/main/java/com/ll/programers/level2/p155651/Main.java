@@ -34,7 +34,6 @@ class Solution {
             return a1[0] - a2[0];
         });
 
-        int count = 0;
         List<Integer> list = new ArrayList<>();
         for(int i=0; i<bookTime.length; i++){
             int startTime = bookTime[i][0];

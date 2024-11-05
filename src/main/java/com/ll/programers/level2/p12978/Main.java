@@ -1,11 +1,15 @@
 package com.ll.programers.level2.p12978;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
+import org.w3c.dom.Node;
+
+import java.util.*;
 
 public class Main {
+    public static void main(String[] args) {
+        String str = "C#C#C#C#";
+        str = str.replace("C#", "D");
+        System.out.println(str);
+    }
 }
 
 class Solution {
@@ -13,7 +17,6 @@ class Solution {
     public boolean[] visited;
     public int[] dist;
     public int solution(int N, int[][] road, int K) {
-
         visited = new boolean[N+1];
         dist = new int[N+1];
         Arrays.fill(dist, Integer.MAX_VALUE);
@@ -34,6 +37,7 @@ class Solution {
 
         dikstra(1);
 
+        Map<String, Integer> map = new HashMap<>();
         int count = 0;
         for(int i=1; i<dist.length; i++){
             if(dist[i] <= K){

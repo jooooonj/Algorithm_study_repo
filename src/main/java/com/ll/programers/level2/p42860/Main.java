@@ -1,11 +1,15 @@
 package com.ll.programers.level2.p42860;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         Solution s = new Solution();
 
 //        s.solution("LABLPAJM");
-        s.solution("JAN");
+        int value = s.solution("BABAAA");
+        System.out.println(value);
 //        s.solution("BMOABA");
 //        s.solution("LAABAA");
 //        s.solution("SAAAAAARRM");
@@ -30,69 +34,36 @@ public class Main {
 }
 
 class Solution {
-    static boolean[] visited;
-    static int[] counts;
-    static int excludeA = 0;
-    static int answer = Integer.MAX_VALUE;
-
+    static int alphabetCount = 26;
     public int solution(String name) {
-        //1. 알파벳 각각 해당 알파벳으로 바꾸기 위해서 몇번 조작해야 하는지
-        // 0과 가까우면 위로 조작 (해당 index vs 26-해당 인덱스)
-        // 더 작은 숫자로 기록
+
         int count = 0;
-        counts = new int[name.length()];
-        visited = new boolean[name.length()];
+        int index = 0;
+        for(int i=0; i<name.length(); i++){
+            char ch = name.charAt(i);
+
+            int seq = (int) ch-'A';
+            if(seq != 0){
+                //위와 아래 어떤 경로가 최소인지
+                count+= Math.min(seq, alphabetCount - seq);
+            }
+        }
+
+        int min = name.length()-1; //그냥 직진했을 경우 최소 횟수
 
         for(int i=0; i<name.length(); i++){
-            int tmp = name.charAt(i) - 'A';
-            if(tmp > 0){
-                counts[i] = tmp;
-                excludeA++;
+            //다음 타겟 잡아서 뒤로 돌아가는 것과 앞으로 가는 것 비교
+
+            int next = i+1;
+            while(next < name.length() && name.charAt(next) == 'A'){
+                next++;
             }
-            int index = tmp < 26-tmp ? tmp : 26-tmp;
-            count += index;
+
+            min = Math.min(min, i*2 + name.length() - next);
+            min = Math.min(min, (name.length() - next) * 2 + i);
         }
 
-        if(counts[0] > 0)
-            visited[0] = true;
 
-        move(0, 0, 0);
-        System.out.println(count + answer);
-        return count + answer;
+        return count + min;
     }
-
-    //해당 인덱스에서 다음 목표까지 가장 가까운 경로 재귀 (완전탐색)
-    static void move(int s, int correct, int count){
-        if(counts[s] > 0){
-            visited[s] = true;
-            correct += 1;
-        }
-
-        if(correct == excludeA){
-            if(answer > count)
-                answer = count;
-            return;
-        }
-
-        int fCount = 1;
-        int bCount = 1;
-
-        int front = (s + 1) % counts.length;
-        int back = (counts.length + (s - 1)) % counts.length;
-
-        while(counts[front] == 0 || visited[front]) {
-            front = (front + 1) % counts.length;
-            fCount++;
-        }
-        while (counts[back] == 0 || visited[back]){
-            back = (counts.length + (back - 1)) % counts.length;
-            bCount++;
-        }
-
-        move(back, correct, count + bCount);
-        visited[back] = false;
-        move(front, correct, count + fCount);
-        visited[front] = false;
-    }
-
 }
